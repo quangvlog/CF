@@ -15,7 +15,7 @@ gen64() {
 }
 
 install_3proxy() {
-    echo "Installing 3proxy 0.9.5..."
+    echo "Dang cai dat 3proxy..."
     git clone https://github.com/z3APA3A/3proxy
     cd 3proxy
     ln -s Makefile.Linux Makefile
@@ -80,7 +80,7 @@ cat << EOF > /etc/rc.d/rc.local
 touch /var/lock/subsys/local
 EOF
 
-WORKDIR="/home/cloudfly"
+WORKDIR="/home/quangvlog"
 WORKDATA="${WORKDIR}/data.txt"
 mkdir -p $WORKDIR && cd $WORKDIR
 
@@ -90,17 +90,19 @@ IP6=$(curl -6 -s icanhazip.com | cut -f1-4 -d':')
 echo "IPv4 = $IP4 | IPv6 prefix = $IP6"
 
 while :; do
-  read -p "Enter FIRST_PORT between 21000 and 61000: " FIRST_PORT
-  [[ $FIRST_PORT =~ ^[0-9]+$ ]] || { echo "Enter a valid number"; continue; }
+  read -p "Nhap FIRST_PORT giua 21000 va 61000: " FIRST_PORT
+  [[ $FIRST_PORT =~ ^[0-9]+$ ]] || { echo "FIRST_PORT kha dung"; continue; }
   if ((FIRST_PORT >= 21000 && FIRST_PORT <= 61000)); then
     break
   else
-    echo "Number out of range"
+    echo "Vui long nhap lai"
   fi
 done
 
-LAST_PORT=$(($FIRST_PORT + 750))
-echo "Will use ports $FIRST_PORT to $LAST_PORT"
+read -p "Ban muon tao bao nhieu proxy?: " COUNT
+
+LAST_PORT=$(($FIRST_PORT + $COUNT))
+echo "Port cua ban se tu $FIRST_PORT den $LAST_PORT"
 
 install_3proxy
 gen_data > $WORKDATA
@@ -114,12 +116,12 @@ cat >>/etc/rc.local <<EOF
 bash ${WORKDIR}/boot_iptables.sh
 bash ${WORKDIR}/boot_ifconfig.sh
 ulimit -n 1000048
-/usr/local/3proxy/bin/3proxy /usr/local/3proxy/conf/3proxy.cfg
+/usr/bin/3proxy /usr/local/3proxy/conf/3proxy.cfg
 EOF
 
 chmod +x /etc/rc.local
 bash /etc/rc.local
 
 gen_proxy_file_for_user
-echo "Starting Proxy"
+echo "Bat dau chay Proxy"
 download_proxy
