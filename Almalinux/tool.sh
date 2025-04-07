@@ -5,5 +5,5 @@ mkswap /swapfile
 swapon /swapfile
 echo '/swapfile none swap sw 0 0' >> /etc/fstab
 echo "Da tao file swap thanh cong"
-sudo dnf install -y wget gcc make tar net-tools
+sudo dnf install -y wget gcc make tar net-tools git
 echo "Da cai cac goi can thiet..."
