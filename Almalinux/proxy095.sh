@@ -104,8 +104,8 @@ gen_3proxy >/usr/local/3proxy/conf/3proxy.cfg
 
 cat >>/etc/rc.d/rc.local <<EOF
 bash ${WORKDIR}/boot_ifconfig.sh
-ulimit -n 10048
-/usr/local/3proxy/bin/3proxy /usr/local/3proxy/conf/3proxy.cfg
+ulimit -n 100480
+/usr/bin/3proxy /usr/local/3proxy/conf/3proxy.cfg
 EOF
 
 chmod +x /etc/rc.d/rc.local
