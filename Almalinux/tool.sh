@@ -6,4 +6,4 @@ swapon /swapfile
 echo '/swapfile none swap sw 0 0' >> /etc/fstab
 echo "Da tao file swap thanh cong"
 sudo dnf install -y wget gcc make tar
-echo "Da tcai cac goi can thiet..."
+echo "Da cai cac goi can thiet..."
