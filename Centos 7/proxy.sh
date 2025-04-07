@@ -26,10 +26,6 @@ install_3proxy() {
     #chkconfig 3proxy on
     cd $WORKDIR
 }
-download_proxy() {
-cd /home/quangvlog
-curl -F "file=@proxy.txt" https://file.io
-}
 gen_3proxy() {
     cat <<EOF
 daemon
@@ -76,7 +72,7 @@ EOF
 
 gen_ifconfig() {
     cat <<EOF
-$(awk -F "/" '{print "ifconfig eth0 inet6 add " $5 "/64"}' ${WORKDATA})
+$(awk -F "/" '{print "ifconfig ens3 inet6 add " $5 "/64"}' ${WORKDATA})
 EOF
 }
 echo "installing apps"
@@ -103,17 +99,19 @@ IP6=$(curl -6 -s icanhazip.com | cut -f1-4 -d':')
 echo "Internal ip = ${IP4}. Exteranl sub for ip6 = ${IP6}"
 
 while :; do
-  read -p "Nhap FIRST_PORT giua 21000 va 61000: " FIRST_PORT
-  [[ $FIRST_PORT =~ ^[0-9]+$ ]] || { echo "Nhap so kha dung"; continue; }
+  read -p "Nhap FIRST_PORT, nen chon giua 21000 va 61000: " FIRST_PORT
+  [[ $FIRST_PORT =~ ^[0-9]+$ ]] || { echo "FIRST_PORT kha dung"; continue; }
   if ((FIRST_PORT >= 21000 && FIRST_PORT <= 61000)); then
-    echo "OK! So kha dung"
     break
   else
-    echo "Number out of range, try again"
+    echo "Vui long nhap lai"
   fi
 done
-LAST_PORT=$(($FIRST_PORT + 1000))
-echo "LAST_PORT is $LAST_PORT. Tiep tuc..."
+
+read -p "Ban muon tao bao nhieu proxy?: " COUNT
+
+LAST_PORT=$(($FIRST_PORT + $COUNT - 1))
+echo "Ban se tao $COUNT Proxy voi Port tu $FIRST_PORT den $LAST_PORT"
 
 gen_data >$WORKDIR/data.txt
 gen_iptables >$WORKDIR/boot_iptables.sh
@@ -134,4 +132,4 @@ bash /etc/rc.local
 gen_proxy_file_for_user
 
 echo "Proxy dang chay"
-download_proxy
+
