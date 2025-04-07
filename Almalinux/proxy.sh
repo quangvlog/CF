@@ -72,8 +72,8 @@ echo "installing apps"
 
 install_3proxy
 
-echo "working folder = /home/bkns"
-WORKDIR="/home/bkns"
+echo "working folder = /home/quangvlog"
+WORKDIR="/home/quangvlog"
 WORKDATA="${WORKDIR}/data.txt"
 mkdir -p $WORKDIR && cd $WORKDIR
 
@@ -82,8 +82,20 @@ IP6=$(curl -6 -s icanhazip.com | cut -f1-4 -d':')
 
 echo "Internal IP = ${IP4}. External sub for IP6 = ${IP6}"
 
-FIRST_PORT=22000
-LAST_PORT=22700
+while :; do
+  read -p "Nhap FIRST_PORT, nen chon giua 21000 va 61000: " FIRST_PORT
+  [[ $FIRST_PORT =~ ^[0-9]+$ ]] || { echo "FIRST_PORT kha dung"; continue; }
+  if ((FIRST_PORT >= 21000 && FIRST_PORT <= 61000)); then
+    break
+  else
+    echo "Vui long nhap lai"
+  fi
+done
+
+read -p "Ban muon tao bao nhieu proxy?: " COUNT
+
+LAST_PORT=$(($FIRST_PORT + $COUNT - 1))
+echo "Ban se tao $COUNT Proxy voi Port tu $FIRST_PORT den $LAST_PORT"
 
 gen_data >$WORKDIR/data.txt
 gen_ifconfig >$WORKDIR/boot_ifconfig.sh
@@ -105,6 +117,6 @@ bash /etc/rc.local
 
 gen_proxy_file_for_user
 rm -rf /root/setup.sh
-rm -rf /root/3proxy-3proxy-0.8.6
+rm -rf /root/3proxy-0.8.13
 
 echo "Starting Proxy"
