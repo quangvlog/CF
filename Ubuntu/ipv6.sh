@@ -1,8 +1,10 @@
 #! /bin/bash
-cd /etc/network
-read -p "Nhap gia tri cho bien ipv6: " ipv6
-read -p "Nhap gia tri cho bien netmask: " netmask
-read -p "Nhap gia tri cho bien gateway: " gateway
-touch a
-echo -e "iface eth0 inet6 static\nipv6 $ipv6\nnetmask $netmask\ngateway $gateway" >> interfaces
+sudo -i
+read -p "Nhap gia tri ipv6: " ipv6
+read -p "Nhap gia tri netmask: " netmask
+read -p "Nhap gia tri gateway: " gateway
+echo "iface eth0 inet6 static
+address $ipv6
+netmask $netmask
+gateway $gateway" >> /etc/network/interfaces
 service networking restart
