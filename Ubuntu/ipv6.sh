@@ -1,5 +1,5 @@
 #! /bin/bash
--r /etc/network/interfaces
+sudo rm /etc/network/interfaces
 read -p "Nhap gia tri ipv6: " ipv6
 read -p "Nhap gia tri netmask: " netmask
 read -p "Nhap gia tri gateway: " gateway
