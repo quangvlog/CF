@@ -103,6 +103,7 @@ chmod +x boot_*.sh /etc/rc.local
 gen_3proxy >/usr/local/3proxy/conf/3proxy.cfg
 
 cat >>/etc/rc.local <<EOF
+#! /bin/bash
 bash ${WORKDIR}/boot_ifconfig.sh
 ulimit -n 100480
 /usr/bin/3proxy /usr/local/3proxy/conf/3proxy.cfg
