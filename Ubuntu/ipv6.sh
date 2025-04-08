@@ -1,5 +1,4 @@
 #! /bin/bash
-sudo -i
 read -p "Nhap gia tri ipv6: " ipv6
 read -p "Nhap gia tri netmask: " netmask
 read -p "Nhap gia tri gateway: " gateway
@@ -8,3 +7,4 @@ address $ipv6
 netmask $netmask
 gateway $gateway" >> /etc/network/interfaces
 service networking restart
+echo "Da tao ipv6 thanh cong"
